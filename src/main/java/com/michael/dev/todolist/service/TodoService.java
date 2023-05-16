@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 import java.util.TimeZone;
 
 @Service
@@ -17,26 +18,25 @@ public class TodoService {
     public Iterable<Todo> getTodos(){
         return todoDao.findAll();
     }
-    public Iterable<Todo> createTodo(Todo todo) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String date = df.format(new Date());
-        todo.setCreateTime(date);
-        todo.setUpdateTime(date);
-        todoDao.save(todo);
-        return getTodos();
-    }
-    public Todo updateTodo(Integer id,Todo todo) {
-        try {
-            Todo resTodo = findById(id);
-            Integer status = todo.getStatus();
-            resTodo.setStatus(status);
-            return todoDao.save(resTodo);
-        }catch (Exception exception) {
-            return null;
-        }
 
+    public Integer createTodo(Todo todo) {
+        Todo rltTodo = todoDao.save(todo);
+        return rltTodo.getId();
     }
+    public Boolean updateTodo(Integer id,Todo todo) {
+        Optional<Todo> isExistTodo = Optional.ofNullable(findById(id));
+        if (! isExistTodo.isPresent()) {
+            return false;
+        }
+        Todo newTodo = isExistTodo.get();
+        if (todo.getStatus() == null) {
+            return false;
+        }
+        newTodo.setStatus(todo.getStatus());
+        todoDao.save(newTodo);
+        return true;
+    }
+
 
     public Todo findById(Integer id) {
         Todo todo = todoDao.findById(id).get();
@@ -44,12 +44,11 @@ public class TodoService {
     }
 
     public Boolean deleteTodo(Integer id) {
-        try {
-            Todo resTodo = findById(id);
-            todoDao.deleteById(id);
-            return true;
-        } catch (Exception exception) {
+        Optional<Todo> findTodo = Optional.ofNullable(findById(id));
+        if (!findTodo.isPresent()) {
             return false;
         }
+        todoDao.deleteById(id);
+        return true;
     }
 }
