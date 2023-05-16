@@ -26,4 +26,30 @@ public class TodoService {
         todoDao.save(todo);
         return getTodos();
     }
+    public Todo updateTodo(Integer id,Todo todo) {
+        try {
+            Todo resTodo = findById(id);
+            Integer status = todo.getStatus();
+            resTodo.setStatus(status);
+            return todoDao.save(resTodo);
+        }catch (Exception exception) {
+            return null;
+        }
+
+    }
+
+    public Todo findById(Integer id) {
+        Todo todo = todoDao.findById(id).get();
+        return todo;
+    }
+
+    public Boolean deleteTodo(Integer id) {
+        try {
+            Todo resTodo = findById(id);
+            todoDao.deleteById(id);
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
+    }
 }

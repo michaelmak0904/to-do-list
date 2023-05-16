@@ -6,10 +6,7 @@ import com.michael.dev.todolist.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class TodoController {
@@ -31,6 +28,18 @@ public class TodoController {
         Todo emptyTodo = new Todo();
         model.addAttribute("todolist", allTodoList);
         model.addAttribute("todoObject", emptyTodo);
-        return "todolist";
+        return "redirect:/todos";
+    }
+
+    @ResponseBody
+    @PutMapping("/todos/{id}")
+    public void updateTodo(@PathVariable Integer id,@RequestBody Todo todo){
+        todoService.updateTodo(id,todo);
+    }
+
+    @ResponseBody
+    @DeleteMapping("/todos/{id}")
+    public void deleteTodo(@PathVariable Integer id) {
+        todoService.deleteTodo(id);
     }
 }
