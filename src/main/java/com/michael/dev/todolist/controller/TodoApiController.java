@@ -30,7 +30,7 @@ public class TodoApiController {
 
     @PostMapping("/todos")
     public ResponseEntity createTodo(@RequestBody Todo todo){
-        Integer rlt = todoService.createTodo(todo);
+        Integer rlt = todoService.createTodoReturnId(todo);
         return ResponseEntity.status(HttpStatus.CREATED).body(rlt);
     }
 

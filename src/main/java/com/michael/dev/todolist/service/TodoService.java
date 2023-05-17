@@ -19,9 +19,14 @@ public class TodoService {
         return todoDao.findAll();
     }
 
-    public Integer createTodo(Todo todo) {
+    public Integer createTodoReturnId(Todo todo) {
         Todo rltTodo = todoDao.save(todo);
         return rltTodo.getId();
+    }
+
+    public Iterable<Todo> createTodoReturnList(Todo todo) {
+        todoDao.save(todo);
+        return getTodos();
     }
     public Boolean updateTodo(Integer id,Todo todo) {
         Optional<Todo> isExistTodo = Optional.ofNullable(findById(id));

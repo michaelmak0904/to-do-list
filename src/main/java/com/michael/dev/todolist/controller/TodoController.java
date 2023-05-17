@@ -24,7 +24,7 @@ public class TodoController {
 
     @PostMapping("/todos")
     public String createTodo(@ModelAttribute Todo todo, Model model) {
-        Iterable<Todo> allTodoList = todoService.createTodo(todo);
+        Iterable<Todo> allTodoList = todoService.createTodoReturnList(todo);
         Todo emptyTodo = new Todo();
         model.addAttribute("todolist", allTodoList);
         model.addAttribute("todoObject", emptyTodo);
