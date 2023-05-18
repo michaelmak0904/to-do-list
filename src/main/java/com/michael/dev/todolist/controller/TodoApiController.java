@@ -50,7 +50,7 @@ public class TodoApiController {
         if(!rlt){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not exist.");
         }else{
-            return ResponseEntity.status(HttpStatus.OK).body("");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
         }
     }
 }
