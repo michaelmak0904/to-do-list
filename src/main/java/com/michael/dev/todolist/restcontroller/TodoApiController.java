@@ -1,8 +1,9 @@
-package com.michael.dev.todolist.controller;
+package com.michael.dev.todolist.restcontroller;
 
 import com.michael.dev.todolist.entity.Todo;
 import com.michael.dev.todolist.service.TodoService;
-import org.apache.coyote.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@Api(tags = "Todo API")
 @RestController
 @RequestMapping("/api")
 public class TodoApiController {
     @Autowired
     TodoService todoService;
 
+    @ApiOperation("Get all todos")
     @GetMapping("/todos")
     public ResponseEntity getTodos(){
         Iterable<Todo> todoList = todoService.getTodos();
