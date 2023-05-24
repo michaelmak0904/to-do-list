@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.util.Optional;
 
@@ -17,10 +20,13 @@ import java.util.Optional;
 public class TodoApiController {
     @Autowired
     TodoService todoService;
+    private static final Logger logger = LoggerFactory.getLogger(TodoApiController.class);
 
     @ApiOperation("Get all todos")
     @GetMapping("/todos")
     public ResponseEntity getTodos(){
+        logger.info("Getting all todos");
+        logger.error("Error testing");
         Iterable<Todo> todoList = todoService.getTodos();
         return ResponseEntity.status(HttpStatus.OK).body(todoList);
     }
